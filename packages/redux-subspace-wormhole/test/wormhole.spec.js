@@ -9,7 +9,7 @@
 import wormhole from '../src/wormhole'
 
 describe('wormhole Tests', () => {
-    it('should map additional state from root state', () => {
+    test('should map additional state from root state', () => {
         const store = {
             rootStore: {
                 getState: () => ({ value: "expected" })
@@ -20,10 +20,10 @@ describe('wormhole Tests', () => {
 
         const state = wormhole((state) => state.value, 'extra')(store).getState(getState)()
 
-        expect(state).to.deep.equal({ original: "test", extra: "expected" })
+        expect(state).toEqual({ original: "test", extra: "expected" })
     })
 
-    it('should map additional state from root state using string', () => {
+    test('should map additional state from root state using string', () => {
         const store = {
             rootStore: {
                 getState: () => ({ value: "expected" })
@@ -34,10 +34,10 @@ describe('wormhole Tests', () => {
 
         const state = wormhole('value', 'extra')(store).getState(getState)()
 
-        expect(state).to.deep.equal({ original: "test", extra: "expected" })
+        expect(state).toEqual({ original: "test", extra: "expected" })
     })
 
-    it('should map additional state from root state using string key', () => {
+    test('should map additional state from root state using string key', () => {
         const store = {
             rootStore: {
                 getState: () => ({ extra: "expected" })
@@ -48,10 +48,10 @@ describe('wormhole Tests', () => {
 
         const state = wormhole('extra')(store).getState(getState)()
 
-        expect(state).to.deep.equal({ original: "test", extra: "expected" })
+        expect(state).toEqual({ original: "test", extra: "expected" })
     })
 
-    it('should handle array state', () => {
+    test('should handle array state', () => {
         const store = {
             rootStore: {
                 getState: () => ({ value: "wrong" })
@@ -62,10 +62,10 @@ describe('wormhole Tests', () => {
 
         const state = wormhole((state) => state.value, 'extra')(store).getState(getState)()
 
-        expect(state).to.deep.equal([ "expected" ])
+        expect(state).toEqual([ "expected" ])
     })
 
-    it('should handle primative state', () => {
+    test('should handle primative state', () => {
         const store = {
             rootStore: {
                 getState: () => ({ value: "wrong" })
@@ -76,10 +76,10 @@ describe('wormhole Tests', () => {
 
         const state = wormhole((state) => state.value, 'extra')(store).getState(getState)()
 
-        expect(state).to.deep.equal("expected")
+        expect(state).toEqual("expected")
     })
     
-    it('should handle null state', () => {
+    test('should handle null state', () => {
         const store = {
             rootStore: {
                 getState: () => ({ value: "wrong" })
@@ -90,10 +90,10 @@ describe('wormhole Tests', () => {
 
         const state = wormhole((state) => state.value, 'extra')(store).getState(getState)()
 
-        expect(state).to.be.null
+        expect(state).toBeNull()
     })
         
-    it('should handle undefined state', () => {
+    test('should handle undefined state', () => {
         const store = {
             rootStore: {
                 getState: () => ({ value: "wrong" })
@@ -104,6 +104,6 @@ describe('wormhole Tests', () => {
 
         const state = wormhole((state) => state.value, 'extra')(store).getState(getState)()
 
-        expect(state).to.be.undefined
+        expect(state).toBeUndefined()
     })
 })

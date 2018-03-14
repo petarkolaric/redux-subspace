@@ -17,10 +17,10 @@ describe('integration tests', () => {
     const parentReducer = combineReducers({ child: childReducer })
     const rootReducer = combineReducers({ parent: parentReducer, other: otherReducer })
 
-    it('should work with no subspaces', () => {
+    test('should work with no subspaces', () => {
         const rootStore = createStore(rootReducer, applyMiddleware(wormhole((state) => state.other, 'fromWormhole')))
 
-        expect(rootStore.getState()).to.deep.equal({
+        expect(rootStore.getState()).toEqual({
             parent: {
                 child: {
                     value: 'expected'
@@ -30,12 +30,12 @@ describe('integration tests', () => {
         })
     })
 
-    it('should work with no namespace sigle subspace', () => {
+    test('should work with no namespace single subspace', () => {
         const rootStore = createStore(rootReducer, applyMiddleware(wormhole((state) => state.other, 'fromWormhole')))
 
         const parentStore = subspace((state) => state.parent)(rootStore)
 
-        expect(parentStore.getState()).to.deep.equal({
+        expect(parentStore.getState()).toEqual({
             child: {
                 value: 'expected'
             },
@@ -43,25 +43,25 @@ describe('integration tests', () => {
         })
     })
 
-    it('should work with no namespace nested subspaces', () => {
+    test('should work with no namespace nested subspaces', () => {
         const rootStore = createStore(rootReducer, applyMiddleware(wormhole((state) => state.other, 'fromWormhole')))
 
         const parentStore = subspace((state) => state.parent)(rootStore)
 
         const childStore = subspace((state) => state.child)(parentStore)
 
-        expect(childStore.getState()).to.deep.equal({
+        expect(childStore.getState()).toEqual({
             value: 'expected',
             fromWormhole: 'other'
         })
     })
 
-    it('should work with namespaced single subspace', () => {
+    test('should work with namespaced single subspace', () => {
         const rootStore = createStore(rootReducer, applyMiddleware(wormhole((state) => state.other, 'fromWormhole')))
 
         const parentStore = subspace((state) => state.parent, 'parentNamespace')(rootStore)
 
-        expect(parentStore.getState()).to.deep.equal({
+        expect(parentStore.getState()).toEqual({
             child: {
                 value: 'expected'
             },
@@ -69,27 +69,27 @@ describe('integration tests', () => {
         })
     })
 
-    it('should work with namespaced nested subspaces', () => {
+    test('should work with namespaced nested subspaces', () => {
         const rootStore = createStore(rootReducer, applyMiddleware(wormhole((state) => state.other, 'fromWormhole')))
 
         const parentStore = subspace((state) => state.parent, 'parentNamespace')(rootStore)
 
         const childStore = subspace((state) => state.child, 'childNamespace')(parentStore)
 
-        expect(childStore.getState()).to.deep.equal({
+        expect(childStore.getState()).toEqual({
             value: 'expected',
             fromWormhole: 'other'
         })
     })
 
-    it('should work with namespaced nested subspaces', () => {
+    test('should work with namespaced nested subspaces', () => {
         const rootStore = createStore(rootReducer, applyMiddleware(wormhole((state) => state.other, 'fromWormhole')))
 
         const parentStore = subspace((state) => state.parent, 'parentNamespace')(rootStore)
 
         const childStore = subspace((state) => state.child, 'childNamespace')(parentStore)
 
-        expect(childStore.getState()).to.deep.equal({
+        expect(childStore.getState()).toEqual({
             value: 'expected',
             fromWormhole: 'other'
         })
